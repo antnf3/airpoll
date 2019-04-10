@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "미세날씨",
+    "slug": "airpoll",
+    "privacy": "public",
+    "sdkVersion": "32.0.0",
+    "android": {
+      "versionCode": 7,
+      "package": "com.mcgrid.antnf.airpoll"
+    },
+    "platforms": ["android"],
+    "version": "1.0.6",
+    "orientation": "portrait",
+    "icon": "./assets/noun_weather_1167842.png",
+    "splash": {
+      "image": "./assets/noun_weather_1167842.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "description": "날씨와 미세먼지",
+    "githubUrl": "https://github.com/antnf3/airpoll"
+  }
+}
