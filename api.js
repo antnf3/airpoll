@@ -14,9 +14,9 @@ const AIRPOLL_BASE_URL =
 export const weather = {
   // 초단기실황조회
   getForecastGrib: (base_date, base_time, nx, ny) => {
-    // console.log(
-    //   `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
-    // );
+    console.log(
+      `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
+    );
     return fetch(
       `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
     )

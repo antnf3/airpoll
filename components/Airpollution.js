@@ -11,8 +11,8 @@ const arrTxt = ["좋음", "보통", "약간나쁨", "나쁨", "매우나쁨", "�
 
 const getLeftPoint = (pm10Point, pm25Point) => {
   return {
-    lPm10: arrPm10.filter(point => point <= pm10Point),
-    lPm25: arrPm25.filter(point => point <= pm25Point)
+    lPm10: arrPm10.filter(point => point < pm10Point),
+    lPm25: arrPm25.filter(point => point < pm25Point)
   };
 };
 

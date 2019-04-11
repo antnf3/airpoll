@@ -119,7 +119,7 @@ export const getGribTimeData = () => {
     hours -= 1;
   }
 
-  if (hours === 23) {
+  if (hours === 23 && minutes < 25) {
     today.setDate(today.getDate() - 1);
   }
   month = today.getMonth() + 1;
@@ -181,31 +181,35 @@ export const normalize = size => {
 };
 
 export const plusObj = (obj1, obj2, deli) => {
-  let vT1h = obj1[deli].reduce((acc, cur) => {
-    acc.push({
-      category: deli,
-      fcstDate: cur.fcstDate,
-      fcstTime: cur.fcstTime,
-      fcstValue: cur.fcstValue
-    });
-    return acc;
-  }, []);
+  return new Promise((resolve, reject) => {
+    let vT1h = obj1[deli].reduce((acc, cur) => {
+      acc.push({
+        category: deli,
+        fcstDate: cur.fcstDate,
+        fcstTime: cur.fcstTime,
+        fcstValue: cur.fcstValue
+      });
+      return acc;
+    }, []);
 
-  vT1h = obj2[deli].reduce((acc, cur) => {
-    acc.push({
-      category: deli,
-      fcstDate: cur.fcstDate,
-      fcstTime: cur.fcstTime,
-      fcstValue: cur.fcstValue
-    });
-    return acc;
-  }, []);
+    vT1h = obj2[deli].reduce((acc, cur) => {
+      acc.push({
+        category: deli,
+        fcstDate: cur.fcstDate,
+        fcstTime: cur.fcstTime,
+        fcstValue: cur.fcstValue
+      });
+      return acc;
+    }, vT1h);
 
-  return arrMerge(vT1h);
+    const abc = arrMerge(vT1h);
+
+    resolve(abc);
+  });
 };
 
 const arrMerge = arrObj => {
-  return arrObj.reduce((acc, cur) => {
+  const uniqArr = arrObj.reduce((acc, cur) => {
     let cnt = 0;
     for (let i = 0, len = acc.length; i < len; i++) {
       if (acc[i].fcstDate == cur.fcstDate && acc[i].fcstTime == cur.fcstTime) {
@@ -215,4 +219,5 @@ const arrMerge = arrObj => {
     cnt < 1 ? acc.push(cur) : acc;
     return acc;
   }, []);
+  return uniqArr;
 };
