@@ -14,9 +14,9 @@ const AIRPOLL_BASE_URL =
 export const weather = {
   // 초단기실황조회
   getForecastGrib: (base_date, base_time, nx, ny) => {
-    console.log(
-      `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
-    );
+    // console.log(
+    //   `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
+    // );
     return fetch(
       `${WEATHER_BASE_URL}ForecastGrib?ServiceKey=${SERVICE_KEY}&base_date=${base_date}&base_time=${base_time}&nx=${nx}&ny=${ny}&pageNo=1&numOfRows=8&_type=json`
     )
@@ -135,8 +135,11 @@ export const airspace = {
       .catch(err => console.log(err));
   },
   // 근접측정소 목록 조회(TM 좌표 이용)
-  getNearbyMsrstnList: (tmX, tmY) =>
-    fetch(
+  getNearbyMsrstnList: (tmX, tmY) => {
+    // console.log(
+    //   `${SPACE_BASE_URL}getNearbyMsrstnList?tmX=${tmX}&tmY=${tmY}&pageNo=1&numOfRows=10&ServiceKey=${SERVICE_KEY}`
+    // );
+    return fetch(
       `${SPACE_BASE_URL}getNearbyMsrstnList?tmX=${tmX}&tmY=${tmY}&pageNo=1&numOfRows=10&ServiceKey=${SERVICE_KEY}`
     )
       .then(res => res.text())
@@ -153,7 +156,8 @@ export const airspace = {
         }
         return arrAddr;
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
+  }
 };
 
 export const airpoll = {

@@ -152,9 +152,12 @@ export const getSpaceTimeDate = () => {
       chagneHour = arrTime.filter(time => time < hours);
     }
   } else {
+    if (hours <= 2) {
+      today.setDate(today.getDate() - 1);
+    }
     chagneHour = arrTime.filter(time => time <= hours);
   }
-  chagneHour = chagneHour[chagneHour.length - 1];
+  chagneHour = chagneHour[chagneHour.length - 1] || 23;
   chagneHour = chagneHour < 10 ? `0${chagneHour}00` : `${chagneHour}00`;
 
   const year = today.getFullYear();

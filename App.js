@@ -1,5 +1,10 @@
 import React from "react";
-import { StyleSheet, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  StatusBar,
+  ScrollView,
+  RefreshControl
+} from "react-native";
 import { LinearGradient } from "expo";
 
 import Loading from "./components/Loading";
@@ -30,7 +35,8 @@ export default class App extends React.Component {
     pm25: 0,
     pm10text: "",
     pm25text: "",
-    stationName: ""
+    stationName: "",
+    refreshing: false
   };
 
   componentDidMount() {
@@ -122,7 +128,8 @@ export default class App extends React.Component {
         content2: { SKY: cntSky, PTY: cntPty, T1H: cntT1h },
         pm10: arrRealMesure[0].pm10Value,
         pm25: arrRealMesure[0].pm25Value,
-        error: null
+        error: null,
+        refreshing: false
       };
       this._setState(virtualState);
     } catch (e) {
@@ -133,6 +140,11 @@ export default class App extends React.Component {
   _setState = virtualState => {
     this.setState(virtualState);
   };
+
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this._getGeolocation();
+  }
 
   render() {
     const {
@@ -148,28 +160,44 @@ export default class App extends React.Component {
 
     if (!isLoaded) {
       return (
-        <LinearGradient colors={["#89EAF1", "#BDCDD9"]} style={styles.loading}>
-          <Loading />
-        </LinearGradient>
+        <>
+          <LinearGradient
+            colors={["#89EAF1", "#BDCDD9"]}
+            style={styles.loading}
+          >
+            <Loading />
+          </LinearGradient>
+          <Ads />
+        </>
       );
     } else {
       return (
         <>
-          <LinearGradient
-            colors={["#89EAF1", "#BDCDD9"]}
-            style={styles.container}
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
           >
-            <StatusBar barStyle={"light-content"} />
-            <Header
-              isLoaded={isLoaded}
-              name={name}
-              getGeolocation={this._getGeolocation}
-            />
-            <Title t1h={t1h} skyStatus={skyStatus} rainStatus={rainStatus} />
-            <Content isLoaded={isLoaded} content2={content2} />
+            <LinearGradient
+              colors={["#89EAF1", "#BDCDD9"]}
+              style={styles.container}
+            >
+              <StatusBar barStyle={"light-content"} />
+              <Header
+                isLoaded={isLoaded}
+                name={name}
+                getGeolocation={this._getGeolocation}
+              />
+              <Title t1h={t1h} skyStatus={skyStatus} rainStatus={rainStatus} />
+              <Content isLoaded={isLoaded} content2={content2} />
 
-            <Airpollution pm10={pm10} pm25={pm25} />
-          </LinearGradient>
+              <Airpollution pm10={pm10} pm25={pm25} />
+            </LinearGradient>
+          </ScrollView>
           <Ads />
         </>
       );
@@ -187,5 +215,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     backgroundColor: "white"
+  },
+  scrollContent: {
+    flex: 1
   }
 });
