@@ -4,18 +4,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { normalize } from "../utils";
 import PropTypes from "prop-types";
 
-const Header = ({ isLoaded, name, getGeolocation }) => {
+const Header = ({ name, getGeolocation }) => {
   return (
     <View style={styles.header}>
       <View style={styles.headerItem}>
         {/* <MaterialCommunityIcons color="black" size={64} name={'menu'} /> */}
       </View>
       <View style={styles.headerTitle}>
-        {isLoaded ? (
-          <Text style={{ fontSize: normalize(30) }}> {name} </Text>
-        ) : (
-          <Text />
-        )}
+        <Text style={{ fontSize: normalize(30) }}> {name} </Text>
       </View>
       <View style={styles.headerItem}>
         <TouchableOpacity onPressOut={getGeolocation}>

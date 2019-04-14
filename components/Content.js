@@ -41,7 +41,7 @@ const BottomViewContent2 = ({ height }) => {
   );
 };
 
-const Content = ({ isLoaded, content2 }) => {
+const Content = ({ content2 }) => {
   const sky = content2.SKY;
   const pty = content2.PTY;
   const t1h = content2.T1H;
@@ -51,44 +51,36 @@ const Content = ({ isLoaded, content2 }) => {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     >
-      {isLoaded ? (
-        <View style={styles.content}>
-          <View style={styles.topContent}>
-            {sky.map((content, i) => (
-              <TopViewContent
-                key={i}
-                date={content.fcstTime}
-                skyIcon={spaceMap.getSkyIcon(
-                  content.fcstValue,
-                  pty[i].fcstValue
-                )}
-                pty={spaceMap.getPtyStatus(pty[i].fcstValue)}
-                skyStatus={spaceMap.getSkyStatus(content.fcstValue)}
-              />
-            ))}
-          </View>
-          <View style={styles.bottomContent}>
-            {t1h.map((content, i) => {
-              let cnt = content.fcstValue >= 0 ? content.fcstValue : 0;
-              return <BottomViewContent key={i} height={cnt} />;
-            })}
-          </View>
-          <View style={styles.bottomContent2}>
-            {t1h.map((content, i) => {
-              let cnt = content.fcstValue < 0 ? content.fcstValue * -1 : 0;
-              return <BottomViewContent2 key={i} height={cnt} />;
-            })}
-          </View>
+      <View style={styles.content}>
+        <View style={styles.topContent}>
+          {sky.map((content, i) => (
+            <TopViewContent
+              key={i}
+              date={content.fcstTime}
+              skyIcon={spaceMap.getSkyIcon(content.fcstValue, pty[i].fcstValue)}
+              pty={spaceMap.getPtyStatus(pty[i].fcstValue)}
+              skyStatus={spaceMap.getSkyStatus(content.fcstValue)}
+            />
+          ))}
         </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+        <View style={styles.bottomContent}>
+          {t1h.map((content, i) => {
+            let cnt = content.fcstValue >= 0 ? content.fcstValue : 0;
+            return <BottomViewContent key={i} height={cnt} />;
+          })}
+        </View>
+        <View style={styles.bottomContent2}>
+          {t1h.map((content, i) => {
+            let cnt = content.fcstValue < 0 ? content.fcstValue * -1 : 0;
+            return <BottomViewContent2 key={i} height={cnt} />;
+          })}
+        </View>
+      </View>
     </ScrollView>
   );
 };
 
 Content.propTypes = {
-  isLoaded: PropTypes.bool.isRequired,
   content2: PropTypes.object.isRequired
 };
 

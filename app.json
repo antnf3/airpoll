@@ -5,13 +5,13 @@
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "android": {
-      "versionCode": 12,
+      "versionCode": 13,
       "package": "com.mcgrid.antnf.airpoll",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.mcgrid.antnf.airpoll",
       "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
     "platforms": ["android"],
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/noun_weather_512_512_white.png",
     "splash": {

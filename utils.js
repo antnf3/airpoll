@@ -104,7 +104,7 @@ export const getTimeData = () => {
     time: `${hours}${minutes}`
   };
 };
-
+// ${hours}${minutes}
 // 초단기 실황 날짜, 시간 가져오기
 export const getGribTimeData = () => {
   const today = new Date();
