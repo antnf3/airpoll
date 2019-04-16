@@ -126,6 +126,8 @@ export default class App extends React.Component {
     const spaceTimeDate = getSpaceTimeDate();
 
     try {
+      const addrNm = await airspace.getCoord2address(lon, lat);
+
       // 초단기실황조회 10분마다 갱신
       const objGrib = await weather.getForecastGrib(
         gribTimeData.yyyyMMdd,
@@ -164,7 +166,12 @@ export default class App extends React.Component {
       }
 
       // TM 기준좌표 조회 측정소 정보 조회 => 오래걸림
-      const arrTmSpace = await airspace.getTMStdrCrdnt(selMap);
+      //const arrTmSpace = await airspace.getTMStdrCrdnt(selMap);
+      const arrTmSpace =
+        (await airspace.getTMStdrCrdnt(addrNm[0])) ||
+        (await airspace.getTMStdrCrdnt(addrNm[1])) ||
+        (await airspace.getTMStdrCrdnt(addrNm[2])) ||
+        (await airspace.getTMStdrCrdnt(selMap));
 
       // 근접측정소 목록 조회(TM 좌표 이용)
       const arrNearMsrs =
@@ -205,7 +212,7 @@ export default class App extends React.Component {
         rainStatus: arrTimeData
           ? spaceMap.getPtyStatus(arrTimeData.PTY[0].fcstValue)
           : {},
-        name: selMap,
+        name: addrNm[0] || addrNm[1] || addrNm[2],
         content2: { SKY: cntSky, PTY: cntPty, T1H: cntT1h },
         pm10: arrRealMesure ? arrRealMesure[0].pm10Value : "0",
         pm25: arrRealMesure ? arrRealMesure[0].pm25Value : "0",

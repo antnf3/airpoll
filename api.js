@@ -1,4 +1,4 @@
-import { SERVICE_KEY } from "./constants";
+import { SERVICE_KEY, KAKAO_REST_KEY } from "./constants";
 import XMLParser from "react-xml-parser";
 
 // 날씨 API
@@ -126,6 +126,37 @@ export const weather = {
 };
 
 export const airspace = {
+  getCoord2address: (lon, lat) => {
+    return fetch(
+      `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`,
+      {
+        headers: new Headers({
+          Authorization: `KakaoAK ${KAKAO_REST_KEY}`
+        })
+      }
+    )
+      .then(res => res.json())
+      .then(json => {
+        const { documents, meta } = json;
+        if (meta.total_count === 1) {
+          // console.log(documents[0].road_address); // 도로명주소(신)
+          // console.log(documents[0].address);  // 지번주소(구)
+          const {
+            region_1depth_name,
+            region_2depth_name,
+            region_3depth_name
+          } = documents[0].address;
+          return [region_3depth_name, region_2depth_name, region_1depth_name];
+        } else {
+          return null;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        return null;
+      });
+  },
+
   // TM 기준좌표 조회 측정소 정보 조회
   getTMStdrCrdnt: umdName => {
     if (IS_DEBUG) {
